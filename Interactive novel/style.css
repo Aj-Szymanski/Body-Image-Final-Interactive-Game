@@ -1,0 +1,367 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    min-height: 100vh;
+    /* Darker dusk slate-plum-rose gradient */
+    background: linear-gradient(135deg, #21242e 0%, #2c2533 55%, #33252c 100%);
+    color: #e6dfe8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+  }
+  
+  #game-stage {
+    min-height: 100vh;
+    transition: opacity 2.5s ease;
+  }
+  
+  .fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  /* Full-Screen Glitch Effect for the "Alek" Easter Egg */
+  .screen-glitch {
+    animation: fullScreenGlitch 0.45s steps(2, end) 2;
+    filter: hue-rotate(150deg) contrast(1.4) invert(0.15);
+  }
+  
+  @keyframes fullScreenGlitch {
+    0%   { transform: translate(0, 0) skewX(0deg); }
+    20%  { transform: translate(-10px, 6px) skewX(-6deg); }
+    40%  { transform: translate(10px, -6px) skewX(6deg); }
+    60%  { transform: translate(-6px, -4px) skewX(-3deg); }
+    80%  { transform: translate(6px, 4px) skewX(3deg); }
+    100% { transform: translate(0, 0) skewX(0deg); }
+  }
+  
+  .easter-egg-text {
+    color: #e69aa8 !important;
+    font-style: italic;
+  }
+  
+  /* Top-Right "Change Character" Button */
+  .back-btn {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    padding: 0.55rem 1.1rem;
+    border: 2px solid #594b66;
+    border-radius: 10px;
+    background-color: rgba(45, 39, 54, 0.9);
+    color: #dfcce3;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 20000;
+    pointer-events: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.2s ease, color 0.2s ease, opacity 2.5s ease;
+  }
+  
+  .back-btn:hover {
+    background-color: #6b3b49;
+    border-color: #9e5c6f;
+    color: #fce7ec;
+  }
+  
+  /* Top-Left "Will Remember This" Notification */
+  .memory-toast {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    padding: 0.75rem 1.25rem;
+    background-color: rgba(42, 36, 51, 0.95);
+    color: #e2c7e6;
+    font-style: italic;
+    font-weight: 500;
+    border-left: 5px solid #a882ad;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    z-index: 25000;
+    animation: fadeInOut 3.5s forwards;
+  }
+  
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-10px); }
+    15% { opacity: 1; transform: translateY(0); }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  
+  /* Popups (Name Prompt & Back Confirmation) */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(18, 15, 23, 0.72);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 30000;
+  }
+  
+  .modal-card {
+    background-color: #2f2838;
+    border: 2px solid #5e4f6b;
+    color: #e6dfe8;
+    padding: 2rem;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 90%;
+    max-width: 410px;
+    line-height: 1.5;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+  
+  .modal-card label {
+    font-weight: bold;
+    color: #dfcce3;
+  }
+  
+  .modal-card input {
+    padding: 0.7rem;
+    border-radius: 10px;
+    border: 2px solid #5e4f6b;
+    background-color: #231e2b;
+    color: #f0ebf2;
+    font-size: 1rem;
+    outline: none;
+  }
+  
+  .modal-card input:focus {
+    border-color: #a882ad;
+  }
+  
+  .modal-card button {
+    padding: 0.65rem 1.1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #6c567b;
+    color: #f3ebf5;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .modal-card button:hover {
+    background-color: #7e668f;
+  }
+  
+  .modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+  }
+  
+  .danger-btn {
+    background-color: #7d4252 !important;
+    color: #fce7ec !important;
+  }
+  
+  .danger-btn:hover {
+    background-color: #914e60 !important;
+  }
+  
+  .cancel-btn {
+    background-color: #464d5c !important;
+    color: #dce2ed !important;
+  }
+  
+  /* Scattered Image Positions */
+  .top-left-img {
+    position: fixed;
+    top: 75px;
+    left: 24px;
+    width: 220px;
+    max-width: 35vw;
+    height: auto;
+    z-index: 10;
+  }
+  
+  .mid-right-img {
+    position: fixed;
+    top: 40%;
+    right: 24px;
+    transform: translateY(-50%);
+    width: 260px;
+    max-width: 40vw;
+    height: auto;
+    z-index: 10;
+  }
+  
+  /* Bottom Semi-Transparent Darker Pastel Dialogue Box */
+  .dialogue-box {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 850px;
+    min-height: 150px;
+    padding: 2rem 1.5rem 1.5rem;
+    border-radius: 16px;
+    background-color: rgba(42, 36, 51, 0.88);
+    border: 2px solid #594b66;
+    backdrop-filter: blur(10px);
+    color: #ece6ef;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  /* Speaker Nameplate + Circular Player Avatar */
+  .speaker-tag {
+    position: absolute;
+    top: -22px;
+    left: 20px;
+    padding: 0.3rem 1rem 0.3rem 0.45rem;
+    border-radius: 999px;
+    background-color: #6b4c5e;
+    border: 2px solid #8f687e;
+    color: #f5e6ee;
+    font-weight: bold;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .avatar-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #2f2838;
+  }
+  
+  .dialogue-line {
+    font-size: 1.15rem;
+    line-height: 1.5;
+    color: #ece6ef;
+  }
+  
+  /* Choice Buttons */
+  .choice-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .choice-btn {
+    min-width: 240px;
+    padding: 0.65rem 1.25rem;
+    border: 2px solid #6c567b;
+    border-radius: 10px;
+    background-color: #493b54;
+    color: #efe8f2;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+  }
+  
+  .choice-btn:hover {
+    background-color: #5b4a69;
+  }
+  
+  /* Button Glitch Effect on Hover (Readable High-Contrast Version) */
+.glitch-active {
+    animation: textGlitch 0.35s steps(2, end);
+    background-color: #241d2b !important;
+    border-color: #d68a9c !important;
+    color: #ffe4ec !important;
+    text-shadow: 1px 0 rgba(126, 196, 207, 0.7), -1px 0 rgba(214, 105, 136, 0.7);
+  }
+  
+  
+  @keyframes textGlitch {
+    0%   { transform: translate(0, 0) skewX(0deg); }
+    20%  { transform: translate(-4px, 2px) skewX(-12deg); }
+    40%  { transform: translate(4px, -2px) skewX(12deg); }
+    60%  { transform: translate(-3px, -1px) skewX(-6deg); }
+    80%  { transform: translate(3px, 1px) skewX(6deg); }
+    100% { transform: translate(0, 0) skewX(0deg); }
+  }
+  
+  #next-btn {
+    align-self: flex-end;
+    padding: 0.5rem 1.35rem;
+    border: 2px solid #56687a;
+    border-radius: 10px;
+    background-color: #3d4b59;
+    color: #e3ecf5;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  #next-btn:hover {
+    background-color: #4c5d6e;
+  }
+  
+  /* Final Centered Message + Home Button */
+  .final-screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+    padding: 2rem;
+    color: #dfcce3;
+    font-weight: 500;
+    font-size: 1.65rem;
+    line-height: 1.6;
+    animation: slowFadeIn 2s ease forwards;
+  }
+  
+  .end-home-btn {
+    padding: 0.75rem 1.6rem;
+    border: 2px solid #6c567b;
+    border-radius: 12px;
+    background-color: #493b54;
+    color: #f0ebf2;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.2s ease, transform 0.15s ease;
+  }
+  
+  .end-home-btn:hover {
+    background-color: #5e4c6b;
+    transform: translateY(-2px);
+  }
+  
+  @keyframes slowFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @media (max-width: 600px) {
+    .top-left-img,
+    .mid-right-img {
+      width: 140px;
+    }
+    .mid-right-img {
+      top: 30%;
+    }
+  }
+  
+  /* Keep .hidden at the bottom so it always overrides display rules */
+  .hidden {
+    display: none;
+  }
+  

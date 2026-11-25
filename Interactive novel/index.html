@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Your Character</title>
+  <link rel="stylesheet" href="select.css">
+</head>
+<body>
+
+  <main class="select-screen">
+    <!-- EDIT HERE: Top Blurb / Story Prompt -->
+    <header class="blurb-box">
+      <h1>Choose Your Character</h1>
+      <p id="intro-blurb">
+        [Write your opening blurb or prompt here before the player starts...]
+      </p>
+    </header>
+
+    <!-- EDIT HERE: Three Character Options (Update data-avatar and src="...") -->
+    <section class="character-grid">
+      <button class="char-card" data-avatar="char1.png">
+        <img src="char1.png" alt="Character 1">
+        <h2>Character 1</h2>
+        <p>Short description or trait</p>
+      </button>
+
+      <button class="char-card" data-avatar="char2.png">
+        <img src="char2.png" alt="Character 2">
+        <h2>Character 2</h2>
+        <p>Short description or trait</p>
+      </button>
+
+      <button class="char-card" data-avatar="char3.png">
+        <img src="char3.png" alt="Character 3">
+        <h2>Character 3</h2>
+        <p>Short description or trait</p>
+      </button>
+    </section>
+  </main>
+
+  <script>
+    document.querySelectorAll('.char-card').forEach((card) => {
+      card.addEventListener('click', () => {
+        const avatarPath = card.getAttribute('data-avatar');
+        localStorage.setItem('selectedAvatar', avatarPath);
+        window.location.href = 'story.html';
+      });
+    });
+  </script>
+
+</body>
+</html>
