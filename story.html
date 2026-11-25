@@ -35,7 +35,7 @@
 
   <!-- FINAL CENTERED MESSAGE + "GO BACK TO THE HOME PAGE" BUTTON -->
   <div id="final-message" class="final-screen hidden">
-    <p id="final-message-text">You are often your own harshest critic, {{player}}. Be kind to yourself.</p>
+    <p id="final-message-text">You wouldn't say these things to others, so why do you say them to yourself? You are often your own harshest critic, {{player}}. Be kind to yourself.</p>
     <button id="end-home-btn" class="end-home-btn">Go back to the home page</button>
   </div>
 
@@ -44,25 +44,27 @@
   <main id="game-stage">
 
     <!-- Round 1: Neighbor Images -->
-    <img src="neighbor-far.png" alt="Neighbor outside" class="top-left-img visual-neighbor-far">
-    <img src="neighbor-close.png" alt="Neighbor up close" class="mid-right-img visual-neighbor-close hidden">
-    <img src="neighbor-unsure.png" alt="Neighbor hurt" class="mid-right-img visual-neighbor-unsure hidden">
+    <img src="images/NBfar.png" alt="Neighbor outside" class="top-left-img visual-neighbor-far">
+    <img src="images/NBclose.png" alt="Neighbor up close" class="mid-right-img visual-neighbor-close hidden">
+    <img src="images/NBupset.png" alt="Neighbor hurt" class="mid-right-img visual-neighbor-unsure hidden">
 
     <!-- Round 2: Friend Images -->
-    <img src="friend-neutral.png" alt="Friend" class="mid-right-img visual-friend-neutral hidden">
-    <img src="friend-hurt.png" alt="Friend hurt" class="mid-right-img visual-friend-hurt hidden">
+    <img src="images/Friendneutral.png" alt="Friend" class="mid-right-img visual-friend-happy hidden">
+    <img src="images/Friendupset.png" alt="Friend hurt" class="mid-right-img visual-friend-hurt hidden">
 
     <!-- Round 3: Stranger & Mirror Images -->
-    <img src="stranger-silhouette.png" alt="Someone else" class="mid-right-img visual-stranger hidden">
-    <img id="mirror-reflection-img" src="char1.png" alt="Mirror reflection" class="mid-right-img visual-mirror hidden">
-
+    
+    <img id="stranger-img" src="images/ch1stranger.png" alt="Stranger" class="mid-right-img visual-stranger hidden">
+    <img id="mirror-reflection-img" src="images/ch1mirror.png" alt="Mirror" class="mid-right-img visual-mirror hidden">
+    
+   
 
     <!-- BOTTOM DIALOGUE BOX -->
     <div id="dialogue-box" class="dialogue-box">
       
       <!-- Speaker Nameplate + Circular Player Avatar -->
       <div id="speaker-badge" class="speaker-tag hidden">
-        <img id="player-avatar" src="char1.png" alt="Avatar" class="avatar-circle hidden">
+        <img id="player-avatar" src="images/ch1.png" alt="Avatar" class="avatar-circle hidden">
         <span id="speaker-name"></span>
       </div>
 
@@ -71,108 +73,118 @@
       <!-- ROUND 1: THE NEIGHBOR                                        -->
       <!-- ============================================================ -->
       <div id="scene-neighbor-1" class="scene">
-        <p class="dialogue-line">Your new neighbor just moved in next door. They are standing outside.</p>
+        <p class="dialogue-line">Your new neighbor just moved in next door.</p>
         <p class="dialogue-line hidden" data-action="closer-neighbor">You walk over to introduce yourself.</p>
       </div>
 
       <div id="scene-neighbor-2" class="scene hidden">
         <p class="dialogue-line" data-speaker="{{player}}">Hi! I'm {{player}}. I live right next door.</p>
-        <p class="dialogue-line hidden" data-speaker="Neighbor">Nice to meet you, {{player}}! I'm still unpacking everything.</p>
+        <p id="n-reply" class="dialogue-line hidden" data-speaker="Neighbor">Nice to meet you, {{player}}!</p>
+        <p id="n-thought" class="dialogue-line hidden thought" data-speaker="{{player}}">...</p>
 
         <div class="choice-container hidden">
           <button class="choice-btn" 
-            data-glitch-text="Say go away"
+            data-glitch-text="Glitch text" 
             data-next-scene="scene-neighbor-glitch" 
-            data-visual="visual-neighbor-unsure"
+            data-visual="visual-neighbor-unsure" 
             data-memory="Your neighbor will remember this.">
-            Say hi
+            Option 1
           </button>
           <button class="choice-btn" 
             data-next-scene="scene-neighbor-rude" 
-            data-visual="visual-neighbor-unsure"
+            data-visual="visual-neighbor-unsure" 
             data-memory="Your neighbor will remember this.">
-            Rudely wave away
+            Option 2
           </button>
         </div>
       </div>
 
       <div id="scene-neighbor-glitch" class="scene hidden">
-        <p class="dialogue-line" data-speaker="Neighbor">W-what? Go away...? Oh, I'm sorry to bother you, {{player}}.</p>
-        <p class="dialogue-line hidden" data-next-scene="scene-friend" data-visual="visual-friend-neutral">Later that afternoon, you run into your friend.</p>
+        <p id="n-glitch-reply" class="dialogue-line" data-speaker="Neighbor">Oh... I didn't even think of that. Well, sorry to bother you, {{player}}, have a good day...</p>
+        <p class="dialogue-line hidden" data-next-scene="scene-friend" data-visual="visual-friend-happy">
+          Later that afternoon, you run into your close friend on the street.
+        </p>
       </div>
 
       <div id="scene-neighbor-rude" class="scene hidden">
-        <p class="dialogue-line" data-speaker="Neighbor">Oh... okay then. I won't take up your time, {{player}}.</p>
-        <p class="dialogue-line hidden" data-next-scene="scene-friend" data-visual="visual-friend-neutral">Later that afternoon, you run into your friend.</p>
+        <p id="n-rude-reply" class="dialogue-line" data-speaker="Neighbor">I didn't ask for your opinion, {{player}}. I'll just go inside.</p>
+        <p class="dialogue-line hidden" data-next-scene="scene-friend" data-visual="visual-friend-happy">
+          Later that afternoon, your long distance friend finally gets to your place.
+        </p>
       </div>
-
 
       <!-- ============================================================ -->
       <!-- ROUND 2: THE FRIEND                                          -->
       <!-- ============================================================ -->
       <div id="scene-friend" class="scene hidden">
-        <p class="dialogue-line" data-speaker="Friend">Hey {{player}}! How has your day been going?</p>
+        <p id="f-opening" class="dialogue-line" data-speaker="Friend">Hey {{player}}! It's so good to see you!</p>
+        <p id="f-thought" class="dialogue-line hidden thought" data-speaker="{{player}}">...</p>
 
         <div class="choice-container hidden">
           <button class="choice-btn" 
-            data-glitch-text="Leave me alone"
+            data-glitch-text="Glitch text" 
             data-next-scene="scene-friend-glitch" 
-            data-visual="visual-friend-hurt"
+            data-visual="visual-friend-hurt" 
             data-memory="Your friend will remember this.">
-            Chat happily
+            Option 1
           </button>
           <button class="choice-btn" 
             data-next-scene="scene-friend-rude" 
-            data-visual="visual-friend-hurt"
+            data-visual="visual-friend-hurt" 
             data-memory="Your friend will remember this.">
-            Brush them off
+            Option 2
           </button>
         </div>
       </div>
 
       <div id="scene-friend-glitch" class="scene hidden">
-        <p class="dialogue-line" data-speaker="Friend">Leave you alone...? Okay, {{player}}, I didn't mean to upset you.</p>
-        <p class="dialogue-line hidden" data-next-scene="scene-mirror" data-visual="visual-stranger">You head back inside and notice someone standing across the room.</p>
+        <p id="f-glitch-reply" class="dialogue-line" data-speaker="Friend">Oh...wow... okay... why would you...never mind then, {{player}}. I'll see you around.</p>
+        <!-- Removed id="f-rude-reply" from this line so it stays intact! -->
+        <p class="dialogue-line hidden" data-next-scene="scene-mirror" data-visual="visual-stranger">
+          You head back inside and notice someone standing across the room.
+        </p>
       </div>
 
       <div id="scene-friend-rude" class="scene hidden">
-        <p class="dialogue-line" data-speaker="Friend">Oh, sorry to bother you, {{player}}. Talk later...</p>
-        <p class="dialogue-line hidden" data-next-scene="scene-mirror" data-visual="visual-stranger">You head back inside and notice someone standing across the room.</p>
+        <!-- Moved id="f-rude-reply" onto the Friend's actual reply line here -->
+        <p id="f-rude-reply" class="dialogue-line" data-speaker="Friend">Oh umm... I didn't think so... is it really that bad? I'll grab something from your closet then, thanks for telling me {{player}}..</p>
+        <p class="dialogue-line hidden" data-next-scene="scene-mirror" data-visual="visual-stranger">
+          You head to your room and notice someone standing across the room.
+        </p>
       </div>
-
 
       <!-- ============================================================ -->
       <!-- ROUND 3: THE MIRROR                                          -->
       <!-- ============================================================ -->
       <div id="scene-mirror" class="scene hidden">
-        <p class="dialogue-line" data-speaker="{{player}}">Who is standing over there...?</p>
+        <p id="m-thought" class="dialogue-line thought" data-speaker="{{player}}">Who is standing over there...?</p>
 
-        <!-- Memory notice is NOT here—it waits until the mirror realization below! -->
         <div class="choice-container hidden">
-          <button class="choice-btn" 
-            data-next-scene="scene-mirror-reveal" 
-            data-visual="visual-mirror">
-            "Look at them... they look completely pathetic."
-          </button>
-          <button class="choice-btn" 
-            data-next-scene="scene-mirror-reveal" 
-            data-visual="visual-mirror">
-            "Honestly, what a total mess they are."
-          </button>
+          <button class="choice-btn" data-next-scene="scene-mirror-reveal">Choice 1</button>
+          <button class="choice-btn" data-next-scene="scene-mirror-reveal">Choice 2</button>
         </div>
       </div>
 
       <div id="scene-mirror-reveal" class="scene hidden">
-        <p class="dialogue-line">You step forward and realize it isn't someone else at all.</p>
-        <!-- Triggers "You will remember this." right upon the realization! -->
+        <p class="dialogue-line" data-visual="visual-mirror">
+          You step forward and realize it isn't someone else at all.
+        </p>
         <p class="dialogue-line hidden" data-trigger-ending="true" data-memory="You will remember this.">
           It's a mirror. You were looking at yourself the whole time.
         </p>
       </div>
 
-      <button id="next-btn">Next</button>
+      <!-- Next Button -->
+      <button id="next-btn" class="next-btn">Next</button>
     </div>
+
   </main>
+
+  <!-- ENDING SCREEN -->
+  <section id="final-message" class="final-screen hidden">
+    <p id="final-message-text">Be gentle with your reflection, {{player}}.</p>
+    <button id="end-home-btn" class="choice-btn">Play Again / Change Character</button>
+  </section>
 
   <script src="script.js"></script>
 </body>

@@ -174,24 +174,25 @@
   
   /* Scattered Image Positions */
   .top-left-img {
-    position: fixed;
-    top: 75px;
-    left: 24px;
-    width: 220px;
-    max-width: 35vw;
-    height: auto;
-    z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;       /* Fills the whole screen without stretching or squishing */
+  object-position: center; /* Keeps the center of the artwork framed (use 'top center' if faces get cropped) */
+  z-index: 10;        
   }
   
   .mid-right-img {
     position: fixed;
-    top: 40%;
-    right: 24px;
-    transform: translateY(-50%);
-    width: 260px;
-    max-width: 40vw;
-    height: auto;
-    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;       /* Fills the whole screen without stretching or squishing */
+    object-position: center; /* Keeps the center of the artwork framed (use 'top center' if faces get cropped) */
+    z-index: 10;        
   }
   
   /* Bottom Semi-Transparent Darker Pastel Dialogue Box */
@@ -251,12 +252,29 @@
     color: #ece6ef;
   }
   
-  /* Choice Buttons */
-  .choice-container {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
+  /* Positions the choices directly above the bottom dialogue box without covering the thought line */
+.choice-container {
+  position: fixed;
+  bottom: 220px;                         /* Sits cleanly above the bottom dialogue box (adjust if taller/shorter) */
+  left: 50%;
+  transform: translateX(-50%);           /* Centers horizontally on screen */
+  width: 90%;
+  max-width: 650px;
+  background-color: rgba(24, 19, 32, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  z-index: 12000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.choice-container .choice-btn {
+  width: 100%;
+  text-align: center;
+}
   
   .choice-btn {
     min-width: 240px;
@@ -359,9 +377,41 @@
       top: 30%;
     }
   }
-  
+  /* Smoothly fades out the stranger image as the smaller mirror fades in */
+.stranger-fade-out {
+  animation: strangerSlowFadeOut 2.5s ease forwards;
+}
+
+@keyframes strangerSlowFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+ /* Layers the mirror over visual-stranger and fades it in slowly */
+ .visual-mirror {
+  width: 65vw !important;
+  height: 65vh !important;
+  top: 42% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  object-fit: contain !important;
+  z-index: 11 !important;
+  animation: mirrorSlowCrossfade 3s ease forwards;
+}
+
+@keyframes mirrorSlowCrossfade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
   /* Keep .hidden at the bottom so it always overrides display rules */
   .hidden {
-    display: none;
+    display: none !important;
   }
   

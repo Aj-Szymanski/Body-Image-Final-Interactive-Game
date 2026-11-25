@@ -13,28 +13,40 @@
     <header class="blurb-box">
       <h1>Choose Your Character</h1>
       <p id="intro-blurb">
-        [Write your opening blurb or prompt here before the player starts...]
+        This is an interactive game to help show the impact that different perspectives of body image issues can have on the people around you, especially on ones body image. Please pick your character and enjoy this experience!
       </p>
     </header>
 
     <!-- EDIT HERE: Three Character Options (Update data-avatar and src="...") -->
     <section class="character-grid">
-      <button class="char-card" data-avatar="char1.png">
-        <img src="char1.png" alt="Character 1">
-        <h2>Character 1</h2>
-        <p>Short description or trait</p>
+      <button class="char-card" 
+      data-theme="appearance"
+      data-avatar="images/ch1.png"
+      data-stranger="images/ch1stranger.png" 
+      data-mirror="images/ch1mirror.png">
+        <img src="images/ch1.png" alt="Character 1">
+        <h2>Appearance Comments</h2>
+        <p>This experience will show interactions of appearance based comments.</p>
       </button>
 
-      <button class="char-card" data-avatar="char2.png">
-        <img src="char2.png" alt="Character 2">
-        <h2>Character 2</h2>
-        <p>Short description or trait</p>
+      <button class="char-card" 
+      data-theme="worth"
+      data-avatar="images/ch2.png"
+      data-stranger="images/ch2stranger.png" 
+      data-mirror="images/ch2mirror.png">
+        <img src="images/ch2.png" alt="Character 2">
+        <h2>Overevaluation of body shape</h2>
+        <p>This experience will show interacations from one who attributes their self-worth to their body shape, and assumes others do too.</p>
       </button>
 
-      <button class="char-card" data-avatar="char3.png">
-        <img src="char3.png" alt="Character 3">
-        <h2>Character 3</h2>
-        <p>Short description or trait</p>
+      <button class="char-card" 
+      data-theme="rejection"
+      data-avatar="images/ch3.png"
+      data-stranger="images/ch3stranger.png" 
+      data-mirror="images/ch3mirror.png">
+        <img src="images/ch3.png" alt="Character 3">
+        <h2>Appearance-based rejection sensitivity</h2>
+        <p>This experience will show interactions from one who experiences appearance-based rejection sensitivity.</p>
       </button>
     </section>
   </main>
@@ -42,8 +54,10 @@
   <script>
     document.querySelectorAll('.char-card').forEach((card) => {
       card.addEventListener('click', () => {
-        const avatarPath = card.getAttribute('data-avatar');
-        localStorage.setItem('selectedAvatar', avatarPath);
+        localStorage.setItem('selectedTheme', card.getAttribute('data-theme'));
+        localStorage.setItem('selectedAvatar', card.getAttribute('data-avatar'));
+        localStorage.setItem('selectedStranger', card.getAttribute('data-stranger'));
+        localStorage.setItem('selectedMirror', card.getAttribute('data-mirror'));
         window.location.href = 'story.html';
       });
     });
