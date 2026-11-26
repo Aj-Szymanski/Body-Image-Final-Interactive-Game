@@ -10,7 +10,16 @@
 
   <!-- TOP-RIGHT "GO BACK" BUTTON & CONFIRMATION POPUP -->
   <button id="back-home-btn" class="back-btn">Change Character</button>
-
+<!-- Body Image Meter (Top-Center HUD) -->
+<div id="body-image-hud" class="body-image-hud">
+  <div class="hud-header">
+    <span class="hud-label">Body Image</span>
+    <span id="body-image-value" class="hud-value">100%</span>
+  </div>
+  <div class="bar-track">
+    <div id="body-image-fill" class="bar-fill"></div>
+  </div>
+</div>
   <div id="confirm-back-modal" class="modal-overlay hidden">
     <div class="modal-card">
       <p>Are you sure you want to go back to character selection? Your current progress will be lost.</p>

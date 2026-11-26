@@ -28,7 +28,28 @@ if (endHomeBtn) {
     window.location.href = 'index.html';
   });
 }
+// Body Image Bar Elements & State
+const bodyImageHud = document.getElementById('body-image-hud');
+const bodyImageFill = document.getElementById('body-image-fill');
+const bodyImageValue = document.getElementById('body-image-value');
+let bodyImageLevel = 100;
 
+function updateBodyImageBar(amountChange, isCrash = false) {
+  bodyImageLevel = Math.max(0, Math.min(100, bodyImageLevel + amountChange));
+
+  if (bodyImageFill) {
+    bodyImageFill.style.width = `${bodyImageLevel}%`;
+    if (bodyImageLevel <= 50) {
+      bodyImageFill.classList.add('low');
+    }
+  }
+  if (bodyImageValue) {
+    bodyImageValue.textContent = `${bodyImageLevel}%`;
+  }
+  if (isCrash && bodyImageHud) {
+    bodyImageHud.classList.add('hud-critical');
+  }
+}
 // Main Story Elements
 const gameStage = document.getElementById('game-stage');
 const speakerBadge = document.getElementById('speaker-badge');
@@ -145,18 +166,27 @@ function checkEndOfScene() {
     showMemoryNotice(lineMemory);
   }
 
-  // Final Mirror Ending: Wait 10s, fade out, then show final message + home button
   if (currentLine.getAttribute('data-trigger-ending') === 'true') {
     nextBtn.classList.add('hidden');
+
     setTimeout(() => {
-      gameStage.classList.add('fade-out');
-      if (backHomeBtn) backHomeBtn.classList.add('fade-out');
+      updateBodyImageBar(-100, true); // Drops remaining bar to 0%
+      document.body.classList.add('red-glitch-crash');
+
       setTimeout(() => {
-        gameStage.classList.add('hidden');
-        if (backHomeBtn) backHomeBtn.classList.add('hidden');
-        finalMessage.classList.remove('hidden');
-      }, 2500);
-    }, 10000);
+        document.body.classList.remove('red-glitch-crash');
+        gameStage.classList.add('fade-out');
+        if (backHomeBtn) backHomeBtn.classList.add('fade-out');
+        if (bodyImageHud) bodyImageHud.classList.add('fade-out');
+
+        setTimeout(() => {
+          gameStage.classList.add('hidden');
+          if (backHomeBtn) backHomeBtn.classList.add('hidden');
+          if (bodyImageHud) bodyImageHud.classList.add('hidden');
+          finalMessage.classList.remove('hidden');
+        }, 1500);
+      }, 1800);
+    }, 2500);
     return;
   }
 
@@ -167,7 +197,6 @@ function checkEndOfScene() {
     nextBtn.classList.remove('hidden');
   }
 }
-
 // 2. Next Button Click Handler
 nextBtn.addEventListener('click', () => {
   const currentLine = activeLines.item(currentIndex);
@@ -382,6 +411,8 @@ document.querySelectorAll('.choice-container').forEach((container) => {
     }
 
     button.addEventListener('click', () => {
+      updateBodyImageBar(-25);
+      
       const visualClass = button.getAttribute('data-visual');
       const memoryText = button.getAttribute('data-memory');
       const nextSceneId = button.getAttribute('data-next-scene');
